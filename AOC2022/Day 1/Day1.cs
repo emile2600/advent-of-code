@@ -1,10 +1,11 @@
-﻿namespace AOC_2022.Day_1;
+using Tools;
+using Tools.Models;
+
+namespace AOC_2022.Day_1;
 
 public class Day1
 {
-    private static readonly string Input = File
-        .OpenText("C:/Users/Emile/RiderProjects/Advent of code/AOC2022/Day 1/input.txt")!
-        .ReadToEnd();
+    private static readonly Input Input = new("C:/Users/Emile/RiderProjects/Advent of code/AOC2022/Day 1/input.txt");
     private class Elf
     {
         public readonly decimal SumOfCalories;
@@ -18,7 +19,7 @@ public class Day1
     }
     public static decimal GetTopCalories(int topAmount = 1)
     {
-        var elves = Input
+        var elves = Input.Data
             .Split(new[] {"\n\n"}, StringSplitOptions.None)
             .Select(calories => new Elf(calories));
         return elves
