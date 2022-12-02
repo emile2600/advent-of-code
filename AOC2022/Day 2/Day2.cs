@@ -2,9 +2,9 @@
 
 namespace AOC2022.Day2;
 
-public class Day2
+public static class Day2
 {
-    private static Input Input = new("C:/Users/Emile/RiderProjects/advent-of-code/AOC2022/Day2/input");
+    private static Input Input = new(@"Day 2/input.txt");
     private enum Shapes
     {
         Rock = 1,

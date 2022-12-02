@@ -5,7 +5,7 @@ namespace AOC_2022.Day_1;
 
 public class Day1
 {
-    private static readonly Input Input = new("C:/Users/Emile/RiderProjects/Advent of code/AOC2022/Day 1/input.txt");
+    private static readonly Input Input = new("Day 1/input.txt");
     private class Elf
     {
         public readonly decimal SumOfCalories;

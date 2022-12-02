@@ -10,4 +10,18 @@
       <ProjectReference Include="..\Tools\Tools.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Day2\input" />
+      <None Include="Day 2\input.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Day 1\input.txt" />
+      <Content Include="Day 1\input.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
 </Project>
