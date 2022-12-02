@@ -31,7 +31,6 @@ public class Day2
             return Outcomes.Win;
         return Outcomes.Loss;
     }
-    // debug this
     private static int CalculatePoints(Shapes other, Shapes me)
     {
         return (int)Condition(me, other) + (int)me;
@@ -73,33 +72,33 @@ public class Day2
                 return Outcomes.Win;
         }
     }
-    public static int CalculateStrategy()
+
+    public static int CalculateStrategyPoints(bool onResult = false)
     {
-        var inputs =
-            Input.Data.Split(new[] {Environment.NewLine, "\r\n", "\n", "\r","\n\n", ""}, StringSplitOptions.None);
-        var doubleInput = inputs.Select(input => input.Split(" "));
-        var filterdInputs = doubleInput.Where(array => !array.Any(s => string.IsNullOrWhiteSpace(s)));
-        var parsedinput = filterdInputs.Select(inputs => inputs.Select(Parse));
-        var sum = 0;
-        foreach (var doubleParsedInput in parsedinput)
-        {
-            var list = doubleParsedInput.ToArray();
-            sum += CalculatePoints(list[0], list[1]);
-        }
+        var doubleInput = Input.DataSplitOnBreakLines
+            .Select(input => input.Split(" "));
+        var sanitizedInputs = doubleInput
+            .Where(array => !array.Any(s => string.IsNullOrWhiteSpace(s)));
+        return onResult ? 
+            CalculateStrategyPointsTotalResult(sanitizedInputs) :
+            CalculateStrategyPointsTotalMatch(sanitizedInputs);
+    }
+
+    private static int CalculateStrategyPointsTotalMatch(IEnumerable<string[]> input)
+    {
+        var parsedInput = input
+            .Select(inputs => new Tuple<Shapes,Shapes>(Parse(inputs[0]),Parse(inputs[1])));
+        var sum = parsedInput
+            .Sum(input => CalculatePoints(input.Item1,input.Item2));
         return sum;
     }
-    public static int CalculateResult()
+    private static int CalculateStrategyPointsTotalResult(IEnumerable<string[]> input)
     {
-        var inputs =
-            Input.Data.Split(new[] {Environment.NewLine, "\r\n", "\n", "\r","\n\n", ""}, StringSplitOptions.None);
-        var doubleInput = inputs.Select(input => input.Split(" "));
-        var filterdInputs = doubleInput.Where(array => !array.Any(s => string.IsNullOrWhiteSpace(s)));
-        var parsedinput = filterdInputs.Select(inputs => new Tuple<Shapes,Outcomes>(Parse(inputs[0]),ParseOutcomes(inputs[1])));
-        var sum = 0;
-        foreach (var doubleParsedInput in parsedinput)
-        {
-            sum += CalculatePoints(doubleParsedInput.Item2, doubleParsedInput.Item1);
-        }
+        
+        var parsedInput = input
+            .Select(inputs => new Tuple<Shapes,Outcomes>(Parse(inputs[0]),ParseOutcomes(inputs[1])));
+        var sum = parsedInput
+            .Sum(input => CalculatePoints(input.Item2, input.Item1));
         return sum;
     }
 }

@@ -1,6 +1,4 @@
-﻿using AOC_2022.Day_1;
-using AOC2022.Day2;
+﻿using AOC2022.Day2;
 
-//var solution = Day2.CalculateStrategy();
-var solution = Day2.CalculateResult();
-Console.WriteLine(solution);
+Console.WriteLine("onMatch: " + Day2.CalculateStrategyPoints());
+Console.WriteLine("onResult: " + Day2.CalculateStrategyPoints(true));
