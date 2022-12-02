@@ -11,13 +11,14 @@ public class Day2
         Paper = 2,
         Scissors = 3
     };
+    // debug this
     private static int CalculatePoints(Shapes me, Shapes other)
     {
         if (me == other)
             return 3 + (int)me;
         if (me.Equals(3) && other.Equals(1))
             return 0 + (int)me;
-        if (me < other)
+        if (me > other)
             return 6 + (int)me;
         return 0 + (int)me;
     }
