@@ -12,9 +12,9 @@
 
     <ItemGroup>
       <None Remove="Day2\input" />
-      <None Include="Day 2\input.txt">
+      <Content Include="Day 2\input.txt">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>

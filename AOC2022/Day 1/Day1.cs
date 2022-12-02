@@ -1,5 +1,6 @@
 using Tools;
 using Tools.Models;
+using Tools.Tools;
 
 namespace AOC_2022.Day_1;
 
@@ -12,9 +13,11 @@ public class Day1
         public Elf(string calories)
         {
             SumOfCalories = calories
-                .Split(new[] {Environment.NewLine, "\r\n", "\n", "\r", ""}, StringSplitOptions.None)
-                .Select(c => decimal.TryParse(c, out var returnValue) ? returnValue : 0m)
-                .Sum();
+                .SplitOnBreakLine()
+                .Sum(s => {
+                    decimal.TryParse(s, out var parsedValue);
+                    return parsedValue;
+                });
         }
     }
     public static decimal GetTopCalories(int topAmount = 1)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using Tools.Tools;
 
 namespace Tools.Models;
 
@@ -11,6 +12,6 @@ public class Input
     {
         Data = File.OpenText(relativePath).ReadToEnd();
         DataSplitOnBreakLines =
-            ImmutableArray.Create(Data.Split(Environment.NewLine));
+            ImmutableArray.Create(Data.SplitOnBreakLine());
     }
 }
