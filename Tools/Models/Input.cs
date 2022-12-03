@@ -11,7 +11,11 @@ public class Input
     public Input(string relativePath)
     {
         Data = File.OpenText(relativePath).ReadToEnd();
+        var dataSplitOnBreakLines = Data.SplitOnBreakLine();
+        var sanitizedDataSplitOnBreakLines = dataSplitOnBreakLines
+            .Where(s => !string.IsNullOrWhiteSpace(s))
+            .ToArray();
         DataSplitOnBreakLines =
-            ImmutableArray.Create(Data.SplitOnBreakLine());
+            ImmutableArray.Create(sanitizedDataSplitOnBreakLines);
     }
 }

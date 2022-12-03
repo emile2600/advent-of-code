@@ -1,6 +1,13 @@
 ﻿using AOC_2022.Day_1;
+using AOC2022.Day_3;
 using AOC2022.Day2;
 
+#region Day 3
+Console.WriteLine("------------------------");
+Console.WriteLine("Day 3");
+Console.WriteLine("prioritySum: " + Day3.GetPrioritySum());
+Console.WriteLine("badgeSum: " + Day3.GetBadgeGroupSum());
+#endregion
 
 #region Day 2
 Console.WriteLine("------------------------");
