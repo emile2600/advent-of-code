@@ -9,10 +9,10 @@ public class Day3
     {
         public readonly char[] Compartment1;
         public readonly char[] Compartment2;
-        public readonly string RucksackContent;
+        public readonly char[] RucksackContent;
         public Rucksack(string rucksackContent)
         {
-            RucksackContent = rucksackContent;
+            RucksackContent = rucksackContent.ToCharArray();
             var splitContent = SplitContent(rucksackContent);
             Compartment1 = splitContent[0].ToCharArray();
             Compartment2 = splitContent[1].ToCharArray();
@@ -42,20 +42,18 @@ public class Day3
     public static int GetBadgeGroupSum()
     {
         var rucksacks = Input.DataSplitOnBreakLines
-            .Select(input => new Rucksack(input));
+            .Select(input => new Rucksack(input))
+            .ToArray();
         var groupedRucksacks = GroupRucksack(rucksacks);
         return groupedRucksacks.Sum(CalculatePriority);
     }
-    private static IEnumerable<IEnumerable<Rucksack>> GroupRucksack(IEnumerable<Rucksack> rucksacks, int groupSize = 3)
-        => rucksacks
-            .Select((_, i) => rucksacks
-                .Skip(groupSize * i)
-                .Take(groupSize));
-    
+    private static IEnumerable<IEnumerable<Rucksack>> GroupRucksack(Rucksack[] rucksacks, int groupSize = 3)
+    {
+        for (var i = 0; i < rucksacks.Length / groupSize; i++)
+            yield return rucksacks.Skip(i * groupSize).Take(groupSize);
+    }
     private static int CalculatePriority(IEnumerable<Rucksack> rucksacks)
     {
-        if (!rucksacks.Any())
-            return 0;
         var duplicateItem = GetDuplicateChar(rucksacks);
         var priorityValue = CalculatePriority(duplicateItem);
         return priorityValue;
@@ -66,6 +64,7 @@ public class Day3
         var priorityValue = CalculatePriority(duplicateItem);
         return priorityValue;
     }
+    // Uses unicode trickery to calculate the priority 
     private static int CalculatePriority(char duplicate)
     {
         var capitalizedChar = duplicate.ToString().ToUpperInvariant().ToCharArray()[0];
@@ -77,18 +76,18 @@ public class Day3
     =>  GetDuplicateChar(rucksack.Compartment1, rucksack.Compartment2)[0];
     private static char GetDuplicateChar(IEnumerable<Rucksack> rucksacks)
     {
-        char[] duplicateItems = null;
+        char[]? duplicateItems = null;
         foreach (var rucksack in rucksacks)
         {
-            var rucksackItems = rucksack.RucksackContent.ToCharArray();
-            duplicateItems = GetDuplicateChar(rucksackItems, duplicateItems);
+            duplicateItems = duplicateItems is null ?
+                rucksack.RucksackContent :
+                GetDuplicateChar(rucksack.RucksackContent, duplicateItems);
         }
+        
         return duplicateItems![0];
     }
-    private static char[] GetDuplicateChar(char[] itemsRucksack1, char[]? itemsRucksack2)
+    private static char[] GetDuplicateChar(char[] itemsRucksack1, char[] itemsRucksack2)
     {
-        if (itemsRucksack2 is null)
-            return itemsRucksack1;
         var duplicate = itemsRucksack1
             .Where(itemsRucksack2.Contains);
         return duplicate.ToArray();
