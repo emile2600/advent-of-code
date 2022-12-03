@@ -23,7 +23,7 @@ public static class Day2
     {
         if (me == other)
             return Outcomes.Draw;
-        if (me ==Shapes.Rock && other == Shapes.Scissors)
+        if (me == Shapes.Rock && other == Shapes.Scissors)
             return Outcomes.Win;
         if (me == Shapes.Scissors && other == Shapes.Rock)
             return Outcomes.Loss;
