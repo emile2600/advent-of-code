@@ -4,13 +4,13 @@ using AOC2022.Day_4;
 using AOC2022.Day2;
 
 var startTime = DateTime.Now;
-DateTime previousTime = startTime;
+var previousTime = startTime;
 DateTime time;
 #region Day 4
 Console.WriteLine("------------------------");
 Console.WriteLine("Day 4");
-Console.WriteLine("totalFullyContainedPairs: " + Day4.AmountOfFullyContained());
-Console.WriteLine("totalOverlaps: " + Day4.AmountOfOverlaps());
+Console.WriteLine("totalFullyContainedPairs: " + Day4.GetTotal(true));
+Console.WriteLine("totalOverlaps: " + Day4.GetTotal());
 time = DateTime.Now;
 Console.WriteLine("runTime: " + (time - previousTime).Milliseconds + "ms");
 previousTime = time;
