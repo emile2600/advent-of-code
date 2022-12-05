@@ -4,9 +4,12 @@ namespace Tools.Tools;
 
 public static class StringManipulator
 {
-    public static string[] SplitOnBreakLine(this string s) 
-        => s.Split(new []{Environment.NewLine, "\n", "\r\n", "\r"}, StringSplitOptions.None);
-
+    public static IEnumerable<string> SplitOnBreakLine(this string s) 
+        => s
+            .Split(new []{Environment.NewLine, "\n", "\r\n", "\r"}, StringSplitOptions.None);
+    public static IEnumerable<string> RemoveEmptySpace(this IEnumerable<string> array)
+        => array.Where(s => !string.IsNullOrWhiteSpace(s));
+    
     public static IEnumerable<string> SplitOnColumn(
         this string input,
         int regexMax,
@@ -25,17 +28,6 @@ public static class StringManipulator
             }
         }
         return columns;
-    }
-
-    private static IEnumerable<string> Spread(this IEnumerable<string[]> list)
-    {
-        foreach (var array in list)
-        {
-            foreach (var s in array)
-            {
-                yield return s;
-            }
-        }
     }
     public static string Merge(this string[] strings)
         => strings.Aggregate("", (current, sInput) => current + sInput);
