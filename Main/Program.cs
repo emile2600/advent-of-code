@@ -1,11 +1,21 @@
 ﻿using AOC_2022.Day_1;
 using AOC2022.Day_3;
 using AOC2022.Day_4;
+using AOC2022.Day_5;
 using AOC2022.Day2;
 
 var startTime = DateTime.Now;
 var previousTime = startTime;
 DateTime time;
+#region Day 5
+Console.WriteLine("------------------------");
+Console.WriteLine("Day 5");
+Console.WriteLine("totalFullyContainedPairs: " + Day5.GetTopOrder());
+time = DateTime.Now;
+Console.WriteLine("runTime: " + (time - previousTime).Milliseconds + "ms");
+previousTime = time;
+#endregion
+
 #region Day 4
 Console.WriteLine("------------------------");
 Console.WriteLine("Day 4");
