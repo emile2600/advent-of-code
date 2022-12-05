@@ -29,9 +29,5 @@ public static class StringManipulator
         }
         return columns;
     }
-    public static string Merge(this string[] strings)
-        => strings.Aggregate("", (current, sInput) => current + sInput);
-    public static string Merge(this IEnumerable<string> strings)
-        => strings.ToArray().Merge();
 
 }
