@@ -2,15 +2,28 @@
 using AOC2022.Day_3;
 using AOC2022.Day_4;
 using AOC2022.Day_5;
+using AOC2022.Day_6;
 using AOC2022.Day2;
 
 var startTime = DateTime.Now;
 var previousTime = startTime;
 DateTime time;
+
+#region Day 6
+Console.WriteLine("------------------------");
+Console.WriteLine("Day 6");
+Console.WriteLine("getStartOfPacketWith4: " + Day6.GetStartOfPacket(4));
+Console.WriteLine("getStartOfPacketWith14: " + Day6.GetStartOfPacket(14));
+time = DateTime.Now;
+Console.WriteLine("runTime: " + (time - previousTime).Milliseconds + "ms");
+previousTime = time;
+#endregion
+
 #region Day 5
 Console.WriteLine("------------------------");
 Console.WriteLine("Day 5");
-Console.WriteLine("totalFullyContainedPairs: " + Day5.GetTopOrder());
+Console.WriteLine("getTopOrder: " + Day5.GetTopOrder());
+Console.WriteLine("getTopOrderCrateMover9001: " + Day5.GetTopOrder(true));
 time = DateTime.Now;
 Console.WriteLine("runTime: " + (time - previousTime).Milliseconds + "ms");
 previousTime = time;

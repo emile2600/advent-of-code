@@ -4,7 +4,7 @@ using Tools.Tools;
 
 namespace AOC_2022.Day_1;
 
-public class Day1
+public static class Day1
 {
     private static readonly Input Input = new("Day 1/input.txt");
     private class Elf

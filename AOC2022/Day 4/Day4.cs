@@ -2,7 +2,7 @@
 
 namespace AOC2022.Day_4;
 
-public class Day4
+public static class Day4
 {
     private static readonly Input Input = new(@"Day 4/input.txt");
     private class ElfPair

@@ -25,7 +25,7 @@ public static class Day5
         }
     }
 
-    public static string GetTopOrder()
+    public static string GetTopOrder(bool crateMover9001 = false)
     {
         var splitInput = Input.Data.Split("\r\n\r\n");
         var stringTable = splitInput[0];
@@ -80,7 +80,7 @@ public static class Day5
                 columns[to].Push(s);
         }
     }
-    private static string GetTop(Stack<string>[] columns)
+    private static string GetTop(IEnumerable<Stack<string>> columns)
         => columns
             .Aggregate("", (current, t) => current + t.Pop());
     
