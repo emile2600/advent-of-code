@@ -87,18 +87,26 @@ public class Day7
     {
         var inputs = Input.DataSplitOnBreakLines;
         var files = new List<FOO>();
-        Command command = null;
+        var commands = new Stack<Command>();
+        File currentFile = null;
         for (var i = 0; i < inputs.Length; i++)
         {
-            if (command != null)
+            if (IsCommand(inputs[i]))
             {
-                if (command.Type == Command.CommandType.List)
+                var command = new Command(inputs[i]);
+                commands.Push(command);
+                if (command.Type == Command.CommandType.Into)
                 {
-                    
+                    currentFile = new Folder(command.To);
                 }
             }
-            command = new Command(inputs[0]);
+            else
+            {
+                
+            }
             
         }
     }
+    private static bool IsCommand(string s)
+        => s[0] == '$';
 }
