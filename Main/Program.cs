@@ -3,6 +3,7 @@ using AOC2022.Day_3;
 using AOC2022.Day_4;
 using AOC2022.Day_5;
 using AOC2022.Day_6;
+using AOC2022.Day_7;
 using AOC2022.Day2;
 
 var startTime = DateTime.Now;
