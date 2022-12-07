@@ -37,7 +37,7 @@ public class Day7
             return s[0] switch
             {
                 'c' => Parse(s),
-                _ => CommandType.Into
+                _ => CommandType.List
             };
         }
         private static CommandType Parse(string s)
@@ -51,62 +51,132 @@ public class Day7
             };
         }
     }
-    private interface FOO
+    private class File
     {
-        public string Name { get; set; }
-        
-    }
-    private class File : FOO
-    {
+        public Folder Parent { get; set; }
         public int    Size { get; set; }
         public string Name { get; set; }
-        public File(string s)
+        public File(int size, string name, Folder parent)
         {
-            var matches = Regex.Matches(s, @"\w{1,}");
-            SetProperties(matches, this);
-        }
-        private static void SetProperties(MatchCollection matches, File file)
-        {
-            for (var i = 0; i < matches.Count; i++)
-            {
-                if (i == 0)
-                    file.Size = int.Parse(matches[i].Value);
-                else
-                    file.Name = matches[i].Value;
-            }
+            Size = size;
+            Name = name;
+            Parent = parent;
         }
     }
-    private class Folder : FOO
+    private class Folder : File
     {
+        public List<File> Childeren { get; } = new();
 
-        public string           Name  { get; set; }
-        public IEnumerable<FOO> Files { get; set; }
-        
+        public Folder(string name, Folder parent) : base(0, name, parent) { }
+
+        public int GetSum()
+        {
+            var sum = 0;
+            foreach (var child in Childeren)
+            {
+                if (child is Folder folder)
+                    sum += folder.GetSum();
+                else
+                    sum += child.Size;
+            }
+
+            return sum;
+        }
+
+        public IEnumerable<Folder> GetFolders()
+        {
+            var childeren = new List<Folder>();
+            foreach (var child in Childeren)
+            {
+                if (child is Folder folder)
+                {
+                    childeren.Add(folder);
+                    childeren.AddRange(folder.GetFolders());
+                }
+            }
+
+            return childeren;
+        }
     }
-    public static void GoThrough()
+    public static int GetSum(int maxFileSize)
     {
         var inputs = Input.DataSplitOnBreakLines;
-        var files = new List<FOO>();
-        var commands = new Stack<Command>();
-        File currentFile = null;
-        for (var i = 0; i < inputs.Length; i++)
+        var topFolder = MapSystem(inputs.ToArray());
+
+        var foo = topFolder
+            .GetFolders()
+            .Where(c=> c.GetSum() < maxFileSize);
+        return foo.Sum(f => f.GetSum());
+    }
+
+    private static int GetSum()
+    {
+        var inputs = Input.DataSplitOnBreakLines;
+        var topFolder = MapSystem(inputs.ToArray());
+        return topFolder.GetSum();
+    }
+
+    public static int DeleteSum(int updateSize, int systemSpecs)
+    {
+        var inputs = Input.DataSplitOnBreakLines;
+        var sizeRn = GetSum();
+        var spaceToFreeUp = Math.Abs(systemSpecs - sizeRn - updateSize);
+        var topFolder = MapSystem(inputs.ToArray());
+        var foo = topFolder.GetFolders().Where(f => f.GetSum() >= spaceToFreeUp);
+        return foo.Min(f => f.GetSum());
+    }
+
+    private static Folder MapSystem(string[] inputs)
+    {
+        Folder topFolder = null;
+        Folder currentFolder = null;
+        Command currentCommand;
+        foreach (var input in inputs)
         {
-            if (IsCommand(inputs[i]))
+            if (IsCommand(input))
             {
-                var command = new Command(inputs[i]);
-                commands.Push(command);
-                if (command.Type == Command.CommandType.Into)
+                currentCommand = new Command(input);
+                switch (currentCommand.Type)
                 {
-                    currentFile = new Folder(command.To);
+                    case Command.CommandType.Reset:
+                        topFolder = new Folder("/", null);
+                        currentFolder = topFolder;
+                        break;
+                    case Command.CommandType.Into:
+                        currentFolder = (Folder)currentFolder
+                            .Childeren
+                            .Single(file => file.Name.Equals(currentCommand.To) && file is Folder);
+                        break;
+                    case Command.CommandType.List:
+                        continue;
+                    case Command.CommandType.OutOf:
+                        currentFolder = currentFolder.Parent;
+                        break;
                 }
             }
             else
             {
-                
+                currentFolder.Childeren.Add(
+                    IsFolder(input) ?
+                        new Folder(GetFolderName(input), currentFolder) :
+                        new File(GetFileSize(input),GetFileName(input),currentFolder));
             }
-            
         }
+
+        return topFolder!;
     }
+
+    
+
+    private static string GetFileName(string s)
+        => Regex.Matches(s, @"\w{1,}")[1].Value;
+    private static int GetFileSize(string s)
+        => int.Parse(Regex.Match(s, @"\d{1,}").Value);
+    private static string GetFolderName(string s)
+        => s.Replace("dir ", "");
     private static bool IsCommand(string s)
         => s[0] == '$';
+
+    private static bool IsFolder(string s)
+        => s[0] == 'd';
 }

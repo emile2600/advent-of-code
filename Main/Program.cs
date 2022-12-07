@@ -10,6 +10,17 @@ var startTime = DateTime.Now;
 var previousTime = startTime;
 DateTime time;
 
+#region Day 7
+Console.WriteLine("------------------------");
+Console.WriteLine("Day 7");
+Console.WriteLine("T: " + Day7.GetSum(100000));
+Console.WriteLine("P: " + Day7.DeleteSum(30000000,70000000));
+time = DateTime.Now;
+Console.WriteLine("runTime: " + (time - previousTime).Milliseconds + "ms");
+previousTime = time;
+
+#endregion
+
 #region Day 6
 Console.WriteLine("------------------------");
 Console.WriteLine("Day 6");
