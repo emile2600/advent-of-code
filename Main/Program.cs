@@ -4,11 +4,22 @@ using AOC2022.Day_4;
 using AOC2022.Day_5;
 using AOC2022.Day_6;
 using AOC2022.Day_7;
+using AOC2022.Day_8;
 using AOC2022.Day2;
 
 var startTime = DateTime.Now;
 var previousTime = startTime;
 DateTime time;
+
+#region Day 8
+Console.WriteLine("------------------------");
+Console.WriteLine("Day 8");
+Console.WriteLine("T: " + Day8.TreesVisible());
+//Console.WriteLine("P: " + Day7.DeleteSum(30000000,70000000));
+time = DateTime.Now;
+Console.WriteLine("runTime: " + (time - previousTime).Milliseconds + "ms");
+previousTime = time;
+#endregion
 
 #region Day 7
 Console.WriteLine("------------------------");

@@ -22,7 +22,7 @@ public static class StringManipulator
         var columns = new string[matches.Length];
         foreach (var match in matches.AsEnumerable())
         {
-            for (int i = 0; i < columns.Length; i++)
+            for (int i = 0; i < match.Count; i++)
             {
                 columns[i] += match[i];
             }
