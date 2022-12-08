@@ -22,12 +22,10 @@ public static class Day8
                 .Select(charInput => new Tree(int.Parse(charInput.ToString())))
                 .ToList())
             .ToList();
-        var colInput = Input.Data.SplitOnColumn(1);
+        var colInput = Input.Data
+            .SplitOnColumn(1,parsedInput[0].Count);
         var parsedCol = colInput
-            .Select(col => 
-                Parse(col)
-                .ToList())
-            .ToList();
+            .Select(s => s.Select(Parse)).ToArray();
 
         var count = 0;
         var colIndex = 0;
@@ -45,10 +43,9 @@ public static class Day8
         }
         return count;
     }
-    private static IEnumerable<Tree> Parse(string s)
-    {
-        
-    }
+
+    private static Tree Parse(char c)
+        => new(int.Parse(c.ToString()));
     private static bool IsVisible(int rowIndex, int colIndex, Tree tree, IEnumerable<Tree> row, IEnumerable<Tree> column)
     {
         var rowReversed = row.Reverse();
@@ -56,9 +53,9 @@ public static class Day8
         var colReversed = column.Reverse();
         var colIndexReversed = colReversed.Count() - colIndex;
         return IsVisible(rowIndex, tree, row) 
-               && IsVisible(rowIndexReversed, tree, rowReversed)
-               && IsVisible(colIndex, tree, column) 
-               && IsVisible(colIndexReversed, tree, colReversed);
+               || IsVisible(rowIndexReversed, tree, rowReversed)
+               || IsVisible(colIndex, tree, column) 
+               || IsVisible(colIndexReversed, tree, colReversed);
     }
     private static bool IsVisible(int treeIndex, Tree tree, IEnumerable<Tree> lineOfSight)
     {
@@ -66,13 +63,13 @@ public static class Day8
         var index = 0;
         foreach (var treeInLightOfSight in lineOfSight)
         {
+            if (index == treeIndex)
+                return true;
             tallestTree ??= treeInLightOfSight;
-            if (tree.Length < tallestTree.Length)
+            if (tree.Length <= tallestTree.Length)
                 return false;
             if (treeInLightOfSight.Length > tallestTree.Length)
                 tallestTree = treeInLightOfSight;
-            if (index == treeIndex)
-                return true;
             index++;
         }
         throw new Exception("no exit");

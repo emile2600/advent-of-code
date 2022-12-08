@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Tools.Tools;
 
@@ -13,18 +14,20 @@ public static class StringManipulator
     public static IEnumerable<string> SplitOnColumn(
         this string input,
         int regexMax,
+        int columnSize,
         int regexMin = 1)
     {
         var splitInput = input.SplitOnBreakLine();
+        splitInput = splitInput.RemoveEmptySpace();
         var matches = splitInput
             .Select(s => Regex.Matches(s, @".{" + regexMin + "," + regexMax + "}"))
             .ToArray();
-        var columns = new string[matches.Length];
+        var columns = new string[columnSize];
         foreach (var match in matches.AsEnumerable())
         {
-            for (int i = 0; i < match.Count; i++)
+            for (int i = 0; i < columnSize; i++)
             {
-                columns[i] += match[i];
+                columns[i] += match[i].Value;
             }
         }
         return columns;

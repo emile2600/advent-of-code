@@ -27,11 +27,12 @@ public static class Day5
 
     public static string GetTopOrder(bool crateMover9001 = false)
     {
-        var splitInput = Input.Data.Split("\r\n\r\n");
+        var splitInput = Input.Data.Split("\r\n\r\n", StringSplitOptions.None);
+        splitInput = Input.Data.Split("\n\n", StringSplitOptions.None);
         var stringTable = splitInput[0];
         var stringCommands = splitInput[1];
         var columns = stringTable
-            .SplitOnColumn(4)
+            .SplitOnColumn(4, 9)
             .Select(Parse)
             .ToArray();
         var commands = GetCommands(stringCommands);
